@@ -1,0 +1,48 @@
+from glob import glob
+from os import path, listdir, makedirs
+from zeppos_file_manager.file_marker import FileMarker
+from logging import getLogger
+from shutil import copy
+
+
+class FilesInformation:
+    def __init__(self, logger=None):
+        if not logger:
+            logger = getLogger("zeppos_file_manager_files_information")
+        self._logger = logger
+
+    def get_files_by_extension(self, base_dir, extension, start_file_filter=None, end_file_filter=None,
+                               include_processed=False):
+        self._logger.info(f'get_files_by_extension: [{base_dir}], [{extension}]')
+        files = glob(
+            path.join(
+                base_dir,
+                f'{str(start_file_filter or "")}*{str(end_file_filter or "")}.{extension}'
+            )
+        )
+        if include_processed:
+            for file_marker in FileMarker.file_marker():
+                files += self.get_files_by_extension(base_dir, f"{extension}.{file_marker}",
+                                                     start_file_filter, end_file_filter)
+        return sorted(files)
+
+    def get_files_excluding_extension(self, base_dir, extension):
+        self._logger.info(f'get_files: [{base_dir}]')
+        files = glob(path.join(base_dir, '*'))
+        return filter(lambda x: not x.upper().endswith(f".{extension.upper()}"), files)
+
+    def get_child_directories(self, base_dir):
+        dirs = [path.join(base_dir, o) for o in listdir(base_dir)
+                if path.isdir(path.join(base_dir, o))]
+        self._logger.info(f"Got [{len(dirs)}] directories")
+        return dirs
+
+    @staticmethod
+    def file_exists_start_with(full_file_name):
+        files = glob(path.join(path.dirname(full_file_name), '*'))
+        return len(
+            list(
+                filter(lambda x:
+                       path.basename(x).upper().startswith(
+                           path.basename(full_file_name).upper()),
+                       files))) > 0
