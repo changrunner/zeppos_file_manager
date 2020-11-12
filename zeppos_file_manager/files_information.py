@@ -1,17 +1,13 @@
 from glob import glob
-from os import path, listdir, makedirs
+from os import path, listdir
 from zeppos_file_manager.file_marker import FileMarker
-from logging import getLogger
-from shutil import copy
 
 
 class FilesInformation:
-    def __init__(self, logger=None):
-        if not logger:
-            logger = getLogger("zeppos_file_manager_files_information")
+    def __init__(self, logger):
         self._logger = logger
 
-    def get_files_by_extension(self, base_dir, extension, start_file_filter=None, end_file_filter=None,
+    def get_files_by_extension(self, base_dir, extension="*", start_file_filter=None, end_file_filter=None,
                                include_processed=False):
         self._logger.info(f'get_files_by_extension: [{base_dir}], [{extension}]')
         files = glob(
@@ -21,7 +17,7 @@ class FilesInformation:
             )
         )
         if include_processed:
-            for file_marker in FileMarker.file_marker():
+            for file_marker in FileMarker.file_maker_list():
                 files += self.get_files_by_extension(base_dir, f"{extension}.{file_marker}",
                                                      start_file_filter, end_file_filter)
         return sorted(files)
