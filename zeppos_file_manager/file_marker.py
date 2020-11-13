@@ -1,6 +1,6 @@
 from os import path
 from shutil import move
-
+from zeppos_logging.setup_logger import logger
 
 class FileMarker:
     done_marker = "done"
@@ -12,19 +12,19 @@ class FileMarker:
         return [FileMarker.done_marker, FileMarker.nodata_marker, FileMarker.fail_marker]
 
     @staticmethod
-    def mark_file_as_done(logger, src_file):
-        return FileMarker.mark_file_with_extension(logger, src_file, FileMarker.done_marker)
+    def mark_file_as_done(src_file):
+        return FileMarker.mark_file_with_extension(src_file, FileMarker.done_marker)
 
     @staticmethod
-    def mark_file_as_nodata(logger, src_file):
-        return FileMarker.mark_file_with_extension(logger, src_file, FileMarker.nodata_marker)
+    def mark_file_as_nodata(src_file):
+        return FileMarker.mark_file_with_extension(src_file, FileMarker.nodata_marker)
 
     @staticmethod
-    def mark_file_as_fail(logger, src_file):
-        return FileMarker.mark_file_with_extension(logger, src_file, FileMarker.fail_marker)
+    def mark_file_as_fail(src_file):
+        return FileMarker.mark_file_with_extension(src_file, FileMarker.fail_marker)
 
     @staticmethod
-    def mark_file_with_extension(logger, source_file, state):
+    def mark_file_with_extension(source_file, state):
         # This function is self contained and errors will be read from the error log.
         try:
             destination_file = f"{source_file}.{state}"
@@ -37,7 +37,7 @@ class FileMarker:
         return False
 
     @staticmethod
-    def mark_files_as_ready(logger, source_file):
+    def mark_files_as_ready(source_file):
         # This function is self contained and errors will be read from the error log.
         try:
             destination_file = path.splitext(source_file)[0]

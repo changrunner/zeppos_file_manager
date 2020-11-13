@@ -3,14 +3,13 @@ from zeppos_file_manager.file import File
 from os import path, makedirs
 from shutil import copyfile
 from datetime import datetime
-import logging
+from zeppos_logging.setup_logger import logger
 
 
 class Files:
-    def __init__(self, logger, base_dir, extension="*", start_file_filter=None, end_file_filter=None,
+    def __init__(self, base_dir, extension="*", start_file_filter=None, end_file_filter=None,
                  include_processed=False, file_object=File):
-        self._logger = logger
-        self._files = FilesInformation(logger).get_files_by_extension(
+        self._files = FilesInformation().get_files_by_extension(
             base_dir=base_dir,
             extension=extension,
             start_file_filter=start_file_filter,
@@ -32,7 +31,6 @@ class Files:
         self.idx += 1
         try:
            return self._file_object(
-               logger=self._logger,
                full_file_name=self._files[self.idx-1]
            )
         except IndexError:
@@ -64,5 +62,5 @@ class Files:
                          )
             return True
         except Exception as error:
-            self._logger.error(f"Could not copy file over: {error}")
+            logger.error(f"Could not copy file over: {error}")
             return False

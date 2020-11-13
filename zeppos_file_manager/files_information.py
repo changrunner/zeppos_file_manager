@@ -1,15 +1,15 @@
 from glob import glob
 from os import path, listdir
 from zeppos_file_manager.file_marker import FileMarker
-
+from zeppos_logging.setup_logger import logger
 
 class FilesInformation:
-    def __init__(self, logger):
-        self._logger = logger
+    def __init__(self):
+        pass
 
     def get_files_by_extension(self, base_dir, extension="*", start_file_filter=None, end_file_filter=None,
                                include_processed=False):
-        self._logger.info(f'get_files_by_extension: [{base_dir}], [{extension}]')
+        logger.info(f'get_files_by_extension: [{base_dir}], [{extension}]')
         files = glob(
             path.join(
                 base_dir,
@@ -23,14 +23,14 @@ class FilesInformation:
         return sorted(files)
 
     def get_files_excluding_extension(self, base_dir, extension):
-        self._logger.info(f'get_files: [{base_dir}]')
+        logger.info(f'get_files: [{base_dir}]')
         files = glob(path.join(base_dir, '*'))
         return filter(lambda x: not x.upper().endswith(f".{extension.upper()}"), files)
 
     def get_child_directories(self, base_dir):
         dirs = [path.join(base_dir, o) for o in listdir(base_dir)
                 if path.isdir(path.join(base_dir, o))]
-        self._logger.info(f"Got [{len(dirs)}] directories")
+        logger.info(f"Got [{len(dirs)}] directories")
         return dirs
 
     @staticmethod

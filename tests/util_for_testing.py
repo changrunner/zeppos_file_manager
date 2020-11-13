@@ -1,7 +1,5 @@
 import os
 import shutil
-import logging
-
 
 class UtilForTesting:
     @staticmethod
@@ -23,12 +21,9 @@ class UtilForTesting:
                 fl.write(content)
             full_file_name_list.append(full_file_name)
 
-        return temp_dir, file_dir, full_file_name_list, UtilForTesting.get_logger()
+        return temp_dir, file_dir, full_file_name_list
 
     @staticmethod
     def file_teardown(temp_dir):
         shutil.rmtree(temp_dir, ignore_errors=True)
 
-    @staticmethod
-    def get_logger():
-        return logging.getLogger("test")

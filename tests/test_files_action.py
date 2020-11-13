@@ -5,9 +5,9 @@ import os
 
 class TestTheProjectMethods(unittest.TestCase):
     def test_backup_files_in_sub_directory_method(self):
-        temp_dir, file_dir, full_file_name_list, logger = UtilForTesting.file_setup('source', None)
+        temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('source', None)
         dest_dir = os.path.join(temp_dir, "backup")
-        FilesAction(logger).backup_files_in_sub_directory(
+        FilesAction().backup_files_in_sub_directory(
             source_directory=temp_dir,
             destination_directory=dest_dir,
             extension='csv'

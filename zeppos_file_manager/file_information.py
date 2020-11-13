@@ -1,15 +1,14 @@
-class FileInformation:
-    def __init__(self, logger, full_file_name):
-        self._logger = logger
-        self._full_file_name = full_file_name
+from zeppos_logging.setup_logger import logger
 
-    def get_total_line_count_for_file(self, full_file_name, line_terminator="\n"):
+class FileInformation:
+    @staticmethod
+    def get_total_line_count_for_file(full_file_name, line_terminator="\n"):
         try:
             with open(full_file_name, "r", encoding="utf-8", errors='ignore') as f:
                 total_count = sum(bl.count(line_terminator) for bl in FileInformation._blocks(f))
             return total_count
         except Exception as error:
-            self._logger.error(f"Error get_total_line_count_for_file: {error}")
+            logger.error(f"Error get_total_line_count_for_file: {error}")
             return None
 
     @staticmethod
