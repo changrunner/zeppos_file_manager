@@ -1,12 +1,16 @@
 import unittest
 from zeppos_file_manager.files_information import FilesInformation
+import logging
+from tests.util_for_testing import UtilForTesting
 
 
 class TestTheProjectMethods(unittest.TestCase):
     def test_get_files_by_extension_method(self):
+        FilesInformation().get_files_by_extension("c:\\")
         FilesInformation().get_files_by_extension("c:\\", "*.txt")
         FilesInformation().get_files_by_extension("c:\\", "*.txt", "test1", "test2")
         FilesInformation().get_files_by_extension("c:\\", "*.txt", "test1", "test2", True)
+        FilesInformation().get_files_by_extension(base_dir="c:\\")
 
     def test_get_files_excluding_extension_method(self):
         FilesInformation().get_files_excluding_extension("c:\\", "*.txt")

@@ -1,30 +1,90 @@
 import unittest
 from zeppos_file_manager.files import Files
+from tests.util_for_testing import UtilForTesting
 import logging
 import os
+from datetime import datetime
+import shutil
 
 
 class TestTheProjectMethods(unittest.TestCase):
     def test_constructor_method(self):
-        files = Files(logging.getLogger("test"), "c:\\temp\\", ".csv")
+        self.assertEqual(str(type(Files("c:\\temp\\"))),
+                         "<class 'zeppos_file_manager.files.Files'>")
 
     def test_count_method(self):
-        self.assertEqual(Files(logging.getLogger("test"), "c:\\temp\\", "testme").count(), 0)
+        temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('testme')
+        self.assertEqual(Files(file_dir, "testme").count(), 0)
+        UtilForTesting.file_teardown(temp_dir)
 
-    def test_count_method(self):
-        with open("c:\\temp\\test.testme", 'w') as fl:
-            fl.write("test")
+    def test__iter___method(self):
+        temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('testme')
 
-        files = Files(logging.getLogger("test"), "c:\\temp\\", "testme")
-        self.assertEqual(files.count(), 1)
-        first_file = None
-        for file in files:
-            first_file = file
+        for file in Files(file_dir, "ext"):
+            self.assertEqual(file.file_name, "test_0.csv.ext")
             break
-        self.assertEqual(first_file.file_name, "test.testme")
 
-        os.remove("c:\\temp\\test.testme")
+        UtilForTesting.file_teardown(temp_dir)
 
+    def test_1_copy_files_adding_today_timestamp_method(self):
+        # Setup
+        temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('cpy')
+        file_name_list = ['test_0.csv.ext']
+        dest_dir = os.path.join(os.path.dirname(file_dir), 'cpy2')
+        now_datetime = datetime.strptime('2001-02-03 04:05:06', '%Y-%m-%d %H:%M:%S')
+
+        # Execute Method
+        result = Files(file_dir, "ext")\
+            .copy_files_adding_today_timestamp(
+            destination_directory=dest_dir,
+            now_datetime=now_datetime,
+            source_file_filter_list=file_name_list)
+
+        # Check Result
+        self.assertEqual(result, True)
+        self.assertEqual(os.path.exists(os.path.join(dest_dir, "2001_02_03_04_05_06_test_0.csv.ext")), True)
+
+        UtilForTesting.file_teardown(temp_dir)
+
+    def test_2_copy_files_adding_today_timestamp_method(self):
+        # Setup
+        temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('cpy', count=2)
+        file_name_list = ['test_0.csv.ext', 'test_1.csv.ext']
+        dest_dir = os.path.join(os.path.dirname(file_dir), 'cpy2')
+        now_datetime = datetime.strptime('2001-02-03 04:05:06', '%Y-%m-%d %H:%M:%S')
+
+        # Execute Method
+        result = Files(file_dir, "ext")\
+            .copy_files_adding_today_timestamp(
+            destination_directory=dest_dir,
+            now_datetime=now_datetime,
+            source_file_filter_list=file_name_list)
+
+        # Check Result
+        self.assertEqual(result, True)
+        self.assertEqual(os.path.exists(os.path.join(dest_dir, "2001_02_03_04_05_06_test_0.csv.ext")), True)
+        self.assertEqual(os.path.exists(os.path.join(dest_dir, "2001_02_03_04_05_06_test_1.csv.ext")), True)
+
+        UtilForTesting.file_teardown(temp_dir)
+
+    def test_3_copy_files_adding_today_timestamp_method(self):
+        temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('cpy', count=2)
+        file_name_list = ['test_0.csv.ext']
+        dest_dir = os.path.join(os.path.dirname(file_dir), 'cpy2')
+        now_datetime = datetime.strptime('2001-02-03 04:05:06', '%Y-%m-%d %H:%M:%S')
+
+        # Execute Method
+        result = Files(file_dir, 'ext').copy_files_adding_today_timestamp(
+            destination_directory=dest_dir,
+            now_datetime=now_datetime,
+            source_file_filter_list=file_name_list
+        )
+
+        # Check Result
+        self.assertEqual(result, True)
+        self.assertEqual(os.path.exists(os.path.join(dest_dir, "2001_02_03_04_05_06_test_0.csv.ext")), True)
+
+        UtilForTesting.file_teardown(temp_dir)
 
 
 if __name__ == '__main__':

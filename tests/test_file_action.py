@@ -1,13 +1,16 @@
 import unittest
 from zeppos_file_manager.file_action import FileAction
+from tests.util_for_testing import UtilForTesting
 
 
 class TestTheProjectMethods(unittest.TestCase):
     def test_get_json_from_file_method(self):
-        FileAction().get_json_from_file("c:\\json_test_file.json")
+        temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup(sub_directory="file_action",
+                                                                            content='{"test1":"test2"}')
+        self.assertEqual(FileAction.get_json_from_file(full_file_name_list[0]), {'test1': 'test2'})
+        UtilForTesting.file_teardown(temp_dir)
 
-    # def test_save_data_method(self):
-    #     full_file_name = FileAction().save_data("this is a test", "c:\\temp", '{"Test":"test"}', "2020_01_01", "2020_01_02")
+
 
 
 if __name__ == '__main__':
