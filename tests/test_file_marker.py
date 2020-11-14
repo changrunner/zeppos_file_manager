@@ -44,10 +44,10 @@ class TestTheProjectMethods(unittest.TestCase):
 
         UtilForTesting.file_teardown(temp_dir)
 
-    def test_mark_files_as_ready_method(self):
+    def test_mark_file_as_ready_method(self):
         temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('ready', '.done')
 
-        result = FileMarker.mark_files_as_ready(full_file_name_list[0])
+        result = FileMarker.mark_file_as_ready(full_file_name_list[0])
 
         self.assertEqual(result, True)
         self.assertEqual(os.path.exists(os.path.splitext(full_file_name_list[0])[0]), True)
