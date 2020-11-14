@@ -64,3 +64,31 @@ class Files:
         except Exception as error:
             logger.error(f"Could not copy file over: {error}")
             return False
+
+    def copy_files(self, target_directory_string, prefix='', target_file_name=None,
+                   mark_as_done=True):
+        if not path.exists(target_directory_string):
+            logger.debug(f"Create Directory: {target_directory_string}")
+            makedirs(target_directory_string, exist_ok=True)
+
+        for file in self.__iter__():
+            if target_file_name:
+                target_full_file_name = path.join(target_directory_string,
+                                                  f"{prefix}{target_file_name}")
+            else:
+                target_full_file_name = path.join(target_directory_string,
+                                                  f"{''.join([prefix + '_' if len(prefix) > 0 else ''])}"
+                                                  f"{file.file_name}")
+
+            logger.debug(f'Copy File [{file.full_file_name}] to [{target_full_file_name}]')
+            copyfile(file.full_file_name, target_full_file_name)
+
+            if mark_as_done:
+                file.mark_as_done()
+
+        return True
+
+    def mark_files_as_ready(self):
+        for file in self.__iter__():
+            file.mark_file_as_ready()
+        return True
