@@ -37,8 +37,7 @@ class FileMarker:
         return False
 
     @staticmethod
-    def mark_files_as_ready(source_file):
-        # This function is self contained and errors will be read from the error log.
+    def mark_file_as_ready(source_file):
         try:
             destination_file = path.splitext(source_file)[0]
             logger.debug(f'Marking file as Ready: [{source_file}] to [{destination_file}]')
@@ -46,6 +45,6 @@ class FileMarker:
             logger.debug(f'Marked file as Ready: [{source_file}] to [{destination_file}]')
             return True
         except Exception as error:
-            logger.error(f"mark_files_as_ready: {error}")
+            logger.error(f"mark_file_as_ready: {error}")
             return False
 

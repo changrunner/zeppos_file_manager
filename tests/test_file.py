@@ -42,6 +42,25 @@ class TestTheProjectMethods(unittest.TestCase):
 
         UtilForTesting.file_teardown(temp_dir)
 
+    def test_get_total_line_count_for_file_method(self):
+        temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup(sub_directory="file_info", content="1\n2\n")
+
+        self.assertEqual(
+            File(full_file_name_list[0]).get_total_line_count_for_file(),
+            2
+        )
+        UtilForTesting.file_teardown(temp_dir)
+
+    def test_mark_file_as_ready_method(self):
+        temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('ready', '.done')
+
+        result = File(full_file_name_list[0]).mark_file_as_ready()
+
+        self.assertEqual(result, True)
+        self.assertEqual(os.path.exists(os.path.splitext(full_file_name_list[0])[0]), True)
+
+        UtilForTesting.file_teardown(temp_dir)
+
 
 if __name__ == '__main__':
     unittest.main()
