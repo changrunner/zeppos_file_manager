@@ -87,3 +87,8 @@ class Files:
                 file.mark_as_done()
 
         return True
+
+    def mark_files_as_ready(self):
+        for file in self.__iter__():
+            file.mark_file_as_ready()
+        return True

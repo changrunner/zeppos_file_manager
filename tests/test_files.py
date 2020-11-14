@@ -115,6 +115,12 @@ class TestTheProjectMethods(unittest.TestCase):
         self.assertEqual(os.path.exists(os.path.join(dest_dir, "test_0.csv.ext")), True)
         UtilForTesting.file_teardown(temp_dir)
 
+    def test_mark_files_as_ready_method(self):
+        temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('cpy', count=1, extension="done")
+        self.assertEqual(Files(file_dir, 'csv', include_processed=True).mark_files_as_ready(), True)
+        self.assertEqual(os.path.exists(os.path.join(file_dir, "test_0.csv")), True)
+        UtilForTesting.file_teardown(temp_dir)
+
 
 if __name__ == '__main__':
     unittest.main()
