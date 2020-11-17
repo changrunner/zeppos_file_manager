@@ -1,6 +1,6 @@
 from os import path
 from shutil import move
-from zeppos_logging.setup_logger import logger
+from zeppos_logging.app_logger import AppLogger
 
 class FileMarker:
     done_marker = "done"
@@ -25,26 +25,26 @@ class FileMarker:
 
     @staticmethod
     def mark_file_with_extension(source_file, state):
-        # This function is self contained and errors will be read from the error log.
         try:
             destination_file = f"{source_file}.{state}"
-            logger.debug(f'Marking file as {state}: [{source_file}] to [{destination_file}]')
+            AppLogger.logger.debug(f'Marking file as {state}: [{source_file}] to [{destination_file}]')
             move(source_file, destination_file)
-            logger.debug(f'Marked file as {state}: [{source_file}] to [{destination_file}]')
+            AppLogger.logger.debug(f'Marked file as {state}: [{source_file}] to [{destination_file}]')
             return True
         except Exception as error:
-            logger.error(f"mark_file_with_extension: {error}")
+            AppLogger.logger.error(f"mark_file_with_extension: {error}")
+            pass
         return False
 
     @staticmethod
     def mark_file_as_ready(source_file):
         try:
             destination_file = path.splitext(source_file)[0]
-            logger.debug(f'Marking file as Ready: [{source_file}] to [{destination_file}]')
+            AppLogger.logger.debug(f'Marking file as Ready: [{source_file}] to [{destination_file}]')
             move(source_file, destination_file)
-            logger.debug(f'Marked file as Ready: [{source_file}] to [{destination_file}]')
+            AppLogger.logger.debug(f'Marked file as Ready: [{source_file}] to [{destination_file}]')
             return True
         except Exception as error:
-            logger.error(f"mark_file_as_ready: {error}")
+            AppLogger.logger.error(f"mark_file_as_ready: {error}")
             return False
 

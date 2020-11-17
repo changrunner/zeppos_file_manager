@@ -3,7 +3,7 @@ from zeppos_file_manager.file import File
 from os import path, makedirs
 from shutil import copyfile
 from datetime import datetime
-from zeppos_logging.setup_logger import logger
+from zeppos_logging.app_logger import AppLogger
 
 
 class Files:
@@ -42,7 +42,6 @@ class Files:
                                           now_datetime=datetime.today(),
                                           date_format="%Y_%m_%d_%H_%M_%S",
                                           source_file_filter_list=None):
-        # This function is self contained and errors will be read from the error log.
         try:
             makedirs(destination_directory, exist_ok=True)
             file_list_to_copy = []
@@ -62,13 +61,13 @@ class Files:
                          )
             return True
         except Exception as error:
-            logger.error(f"Could not copy file over: {error}")
+            AppLogger.logger.error(f"Could not copy file over: {error}")
             return False
 
     def copy_files(self, target_directory_string, prefix='', target_file_name=None,
                    mark_as_done=True):
         if not path.exists(target_directory_string):
-            logger.debug(f"Create Directory: {target_directory_string}")
+            AppLogger.logger.debug(f"Create Directory: {target_directory_string}")
             makedirs(target_directory_string, exist_ok=True)
 
         for file in self.__iter__():
@@ -80,7 +79,7 @@ class Files:
                                                   f"{''.join([prefix + '_' if len(prefix) > 0 else ''])}"
                                                   f"{file.file_name}")
 
-            logger.debug(f'Copy File [{file.full_file_name}] to [{target_full_file_name}]')
+            AppLogger.logger.debug(f'Copy File [{file.full_file_name}] to [{target_full_file_name}]')
             copyfile(file.full_file_name, target_full_file_name)
 
             if mark_as_done:

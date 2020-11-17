@@ -1,8 +1,5 @@
 import unittest
 from zeppos_file_manager.files_information import FilesInformation
-import logging
-from tests.util_for_testing import UtilForTesting
-
 
 class TestTheProjectMethods(unittest.TestCase):
     def test_get_files_by_extension_method(self):

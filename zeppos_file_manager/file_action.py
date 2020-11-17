@@ -1,7 +1,7 @@
 from os import path
 from json import load, dump
 from datetime import datetime
-from zeppos_logging.setup_logger import logger
+from zeppos_logging.app_logger import AppLogger
 
 class FileAction:
     @staticmethod
@@ -14,7 +14,7 @@ class FileAction:
                     return json_string
             return None
         except Exception as error:
-            logger.error(f"Error get_json_from_file: {error}")
+            AppLogger.logger.error(f"Error get_json_from_file: {error}")
             return None
 
     @staticmethod
@@ -28,14 +28,14 @@ class FileAction:
                 f'payload_type={payload_type}_start_date={start_date_string}_end_date={end_date_string}'
                 f'_guid={abs(hash(payload_hash_string + str(datetime.now())))}.{file_extension}'
             )
-            logger.debug("Saving info to file [{}]".format(path.basename(full_file_name)))
+            AppLogger.logger.debug("Saving info to file [{}]".format(path.basename(full_file_name)))
             json_res = payload.get(payload_dict_element_name)
             if json_res:
                 dump(json_res, open(path.join(base_dir, full_file_name), 'w'))
                 return full_file_name
 
-            logger.info("Empty Payload!")
+            AppLogger.logger.info("Empty Payload!")
             return full_file_name
         except Exception as error:
-            logger.error(f"Error save_json: {error}")
+            AppLogger.logger.error(f"Error save_json: {error}")
             return None

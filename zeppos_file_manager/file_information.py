@@ -1,4 +1,4 @@
-from zeppos_logging.setup_logger import logger
+from zeppos_logging.app_logger import AppLogger
 
 class FileInformation:
     @staticmethod
@@ -8,7 +8,7 @@ class FileInformation:
                 total_count = sum(bl.count(line_terminator) for bl in FileInformation._blocks(f))
             return total_count
         except Exception as error:
-            logger.error(f"Error get_total_line_count_for_file: {error}")
+            AppLogger.logger.error(f"Error get_total_line_count_for_file: {error}")
             return None
 
     @staticmethod
