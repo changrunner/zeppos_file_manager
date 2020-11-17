@@ -4,10 +4,8 @@ from zeppos_file_manager.file_marker import FileMarker
 from zeppos_logging.app_logger import AppLogger
 
 class FilesInformation:
-    def __init__(self):
-        pass
-
-    def get_files_by_extension(self, base_dir, extension="*", start_file_filter=None, end_file_filter=None,
+    @staticmethod
+    def get_files_by_extension(base_dir, extension="*", start_file_filter=None, end_file_filter=None,
                                include_processed=False):
         AppLogger.logger.info(f'get_files_by_extension: [{base_dir}], [{extension}]')
         files = glob(
@@ -18,16 +16,18 @@ class FilesInformation:
         )
         if include_processed:
             for file_marker in FileMarker.file_maker_list():
-                files += self.get_files_by_extension(base_dir, f"{extension}.{file_marker}",
-                                                     start_file_filter, end_file_filter)
+                files += FilesInformation.get_files_by_extension(base_dir, f"{extension}.{file_marker}",
+                                                                 start_file_filter, end_file_filter)
         return sorted(files)
 
-    def get_files_excluding_extension(self, base_dir, extension):
+    @staticmethod
+    def get_files_excluding_extension(base_dir, extension):
         AppLogger.logger.info(f'get_files: [{base_dir}]')
         files = glob(path.join(base_dir, '*'))
         return filter(lambda x: not x.upper().endswith(f".{extension.upper()}"), files)
 
-    def get_child_directories(self, base_dir):
+    @staticmethod
+    def get_child_directories(base_dir):
         dirs = [path.join(base_dir, o) for o in listdir(base_dir)
                 if path.isdir(path.join(base_dir, o))]
         AppLogger.logger.info(f"Got [{len(dirs)}] directories")
