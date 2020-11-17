@@ -27,3 +27,14 @@ class UtilForTesting:
     def file_teardown(temp_dir):
         shutil.rmtree(temp_dir, ignore_errors=True)
 
+    @staticmethod
+    def check_log_capture(self, lc, logging_tuple_list, logging_matching_criteria):
+        for tuple_index in range(0, len(logging_tuple_list)):
+            for item_index in range(0, len(logging_tuple_list[tuple_index])):
+                if logging_matching_criteria[item_index] == 'exact':
+                    self.assertEqual(logging_tuple_list[tuple_index][item_index],
+                                     lc.actual()[tuple_index][item_index]
+                                     )
+                elif logging_matching_criteria[item_index] == 'startswith':
+                    self.assertEqual(True, lc.actual()[tuple_index][item_index].startswith(
+                        logging_tuple_list[tuple_index][item_index]))

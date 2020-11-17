@@ -1,10 +1,8 @@
 import unittest
 from zeppos_file_manager.files import Files
 from tests.util_for_testing import UtilForTesting
-import logging
 import os
 from datetime import datetime
-import shutil
 
 
 class TestTheProjectMethods(unittest.TestCase):

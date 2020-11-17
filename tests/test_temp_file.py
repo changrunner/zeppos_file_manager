@@ -1,7 +1,6 @@
 import unittest
 from zeppos_file_manager.temp_file import TempFile
 
-
 class TestTheProjectMethods(unittest.TestCase):
     def test_constructor_method(self):
         self.assertEqual(str(type(TempFile())), "<class 'zeppos_file_manager.temp_file.TempFile'>")

@@ -2,7 +2,7 @@ from os import path, makedirs
 from shutil import copy
 from zeppos_file_manager.files_information import FilesInformation
 import os
-from zeppos_logging.setup_logger import logger
+from zeppos_logging.app_logger import AppLogger
 
 class FilesAction:
     def __init__(self,):
@@ -17,4 +17,4 @@ class FilesAction:
                 if not FilesInformation.file_exists_start_with(destination_full_file_name):
                     makedirs(path.dirname(destination_full_file_name), exist_ok=True)
                     copy(source_full_file_name, destination_full_file_name)
-                    logger.info(f"Copy [{source_full_file_name}] to [{destination_full_file_name}")
+                    AppLogger.logger.info(f"Copy [{source_full_file_name}] to [{destination_full_file_name}")
