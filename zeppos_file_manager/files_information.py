@@ -9,7 +9,7 @@ class FilesInformation:
 
     def get_files_by_extension(self, base_dir, extension="*", start_file_filter=None, end_file_filter=None,
                                include_processed=False):
-        AppLogger.info(f'get_files_by_extension: [{base_dir}], [{extension}]')
+        AppLogger.logger.info(f'get_files_by_extension: [{base_dir}], [{extension}]')
         files = glob(
             path.join(
                 base_dir,
