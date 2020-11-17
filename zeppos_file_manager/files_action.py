@@ -5,10 +5,8 @@ import os
 from zeppos_logging.app_logger import AppLogger
 
 class FilesAction:
-    def __init__(self,):
-        pass
-
-    def backup_files_in_sub_directory(self, source_directory, destination_directory, extension='*'):
+    @staticmethod
+    def backup_files_in_sub_directory(source_directory, destination_directory, extension='*'):
         for child_directory in FilesInformation().get_child_directories(source_directory):
             for source_full_file_name in FilesInformation().get_files_by_extension(child_directory, extension):
                 destination_full_file_name = path.join(
