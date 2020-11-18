@@ -15,4 +15,4 @@ class FilesAction:
                 if not FilesInformation.file_exists_start_with(destination_full_file_name):
                     makedirs(path.dirname(destination_full_file_name), exist_ok=True)
                     copy(source_full_file_name, destination_full_file_name)
-                    AppLogger.logger.info(f"Copy [{source_full_file_name}] to [{destination_full_file_name}")
+                    AppLogger.logger.debug(f"Copy [{source_full_file_name}] to [{destination_full_file_name}")
