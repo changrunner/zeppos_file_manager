@@ -7,7 +7,7 @@ class FilesInformation:
     @staticmethod
     def get_files_by_extension(base_dir, extension="*", start_file_filter=None, end_file_filter=None,
                                include_processed=False):
-        AppLogger.logger.info(f'get_files_by_extension: [{base_dir}], [{extension}]')
+        AppLogger.logger.debug(f'get_files_by_extension: [{base_dir}], [{extension}]')
         files = glob(
             path.join(
                 base_dir,
@@ -22,7 +22,7 @@ class FilesInformation:
 
     @staticmethod
     def get_files_excluding_extension(base_dir, extension):
-        AppLogger.logger.info(f'get_files: [{base_dir}]')
+        AppLogger.logger.debug(f'get_files: [{base_dir}]')
         files = glob(path.join(base_dir, '*'))
         return filter(lambda x: not x.upper().endswith(f".{extension.upper()}"), files)
 
@@ -30,7 +30,7 @@ class FilesInformation:
     def get_child_directories(base_dir):
         dirs = [path.join(base_dir, o) for o in listdir(base_dir)
                 if path.isdir(path.join(base_dir, o))]
-        AppLogger.logger.info(f"Got [{len(dirs)}] directories")
+        AppLogger.logger.debug(f"Got [{len(dirs)}] directories")
         return dirs
 
     @staticmethod

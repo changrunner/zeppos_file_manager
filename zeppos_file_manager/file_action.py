@@ -34,7 +34,7 @@ class FileAction:
                 dump(json_res, open(path.join(base_dir, full_file_name), 'w'))
                 return full_file_name
 
-            AppLogger.logger.info("Empty Payload!")
+            AppLogger.logger.debug("Empty Payload!")
             return full_file_name
         except Exception as error:
             AppLogger.logger.error(f"Error save_json: {error}")
