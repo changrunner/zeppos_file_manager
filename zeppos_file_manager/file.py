@@ -1,6 +1,7 @@
 from os import path
 from zeppos_file_manager.file_marker import FileMarker
 from zeppos_file_manager.file_information import FileInformation
+from zeppos_file_manager.file_action import FileAction
 
 class File:
     def __init__(self, full_file_name):
@@ -32,3 +33,10 @@ class File:
 
     def mark_file_as_ready(self):
         return FileMarker.mark_file_as_ready(self._full_file_name)
+
+    @staticmethod
+    def create_instance_with_todays_date(root_directory, file_name, file_object,
+                                         format="%d_%m_%Y_%H_%M_%S"):
+        return file_object(full_file_name=
+                           FileAction.get_full_file_name_with_todays_date(root_directory, file_name, format)
+                           )
