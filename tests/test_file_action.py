@@ -3,6 +3,7 @@ from zeppos_file_manager.file_action import FileAction
 from tests.util_for_testing import UtilForTesting
 from testfixtures import LogCapture
 from zeppos_logging.app_logger import AppLogger
+import os
 
 class TestTheProjectMethods(unittest.TestCase):
     def test_1_get_json_from_file_method(self):
@@ -23,6 +24,12 @@ class TestTheProjectMethods(unittest.TestCase):
                 self, lc, [('2_get_json_from_file', 'ERROR', "Error get_json_from_file: Expecting ',' delimiter")],
                 ("exact", "exact", "startswith")
             )
+
+    def test_get_full_file_name_with_todays_date_method(self):
+        full_file_name = FileAction.get_full_file_name_with_todays_date(root_directory=r"c:\temp", filename="test.csv")
+        self.assertEqual(r"c:\temp", os.path.dirname(full_file_name))
+        self.assertEqual("test.csv", os.path.basename(full_file_name).split("__")[1])
+        self.assertGreater(len(os.path.basename(full_file_name).split("__")[0]), 0)
 
 
 if __name__ == '__main__':

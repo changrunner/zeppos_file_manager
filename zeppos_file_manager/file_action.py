@@ -39,3 +39,7 @@ class FileAction:
         except Exception as error:
             AppLogger.logger.error(f"Error save_json: {error}")
             return None
+
+    @staticmethod
+    def get_full_file_name_with_todays_date(root_directory, filename, format="%d_%m_%Y_%H_%M_%S"):
+        return path.join(root_directory, f"{datetime.now().strftime(format)}__{filename}")

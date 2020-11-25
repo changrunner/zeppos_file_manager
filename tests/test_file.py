@@ -61,6 +61,12 @@ class TestTheProjectMethods(unittest.TestCase):
 
         UtilForTesting.file_teardown(temp_dir)
 
+    def test_create_instance_with_todays_date_method(self):
+        file = File.create_instance_with_todays_date(r"c:\temp", "test.csv", File)
+        self.assertEqual(r"c:\temp", os.path.dirname(file.full_file_name))
+        self.assertEqual("test.csv", os.path.basename(file.full_file_name).split("__")[1])
+        self.assertGreater(len(os.path.basename(file.full_file_name).split("__")[0]), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
