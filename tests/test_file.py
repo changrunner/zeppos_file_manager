@@ -77,6 +77,9 @@ class TestTheProjectMethods(unittest.TestCase):
         temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('test_dir_name', '')
         self.assertEqual(os.path.dirname(full_file_name_list[0]), File(full_file_name_list[0]).directory_name)
 
+    def file_name_without_extension_method(self):
+        self.assertEqual("test", File("c:\\test\\test.csv").file_name_without_extension)
+
 
 if __name__ == '__main__':
     unittest.main()

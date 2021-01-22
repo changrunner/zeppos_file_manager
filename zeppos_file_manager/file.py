@@ -13,6 +13,10 @@ class File:
         return path.basename(self._full_file_name)
 
     @property
+    def file_name_without_extension(self):
+        return path.splitext(path.basename(self._full_file_name))[0]
+
+    @property
     def full_file_name(self):
         return self._full_file_name
 
