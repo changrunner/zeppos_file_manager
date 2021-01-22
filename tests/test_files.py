@@ -10,21 +10,21 @@ class TestTheProjectMethods(unittest.TestCase):
         UtilForTesting.file_clean_up()
 
     def tearDown(self):
-        UtilForTesting.file_clean_up()
-
+        # UtilForTesting.file_clean_up()
+        pass
     def test_constructor_method(self):
         self.assertEqual(str(type(Files("c:\\temp\\"))),
                          "<class 'zeppos_file_manager.files.Files'>")
 
     def test_count_method(self):
         temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('testme', extension="csv")
-        self.assertEqual(Files(file_dir, "*.csv").count(), 1)
+        self.assertEqual(Files(file_dir, "csv").count(), 1)
 
     def test_count_with_subdir_method(self):
         temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup(
             r'test_1\field1=somedata1\field2=somedata2', extension="",
             content="col1,col2\ntest1,test2")
-        self.assertEqual(Files(file_dir, extension="*.csv", include_subdir=True).count(), 1)
+        self.assertEqual(Files(file_dir, extension="csv", include_subdir=True).count(), 1)
 
     def test__iter___method(self):
         temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('testme')
