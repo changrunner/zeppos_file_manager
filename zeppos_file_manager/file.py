@@ -2,6 +2,7 @@ from os import path
 from zeppos_file_manager.file_marker import FileMarker
 from zeppos_file_manager.file_information import FileInformation
 from zeppos_file_manager.file_action import FileAction
+from os import path
 
 class File:
     def __init__(self, full_file_name):
@@ -14,6 +15,10 @@ class File:
     @property
     def full_file_name(self):
         return self._full_file_name
+
+    @property
+    def directory_name(self):
+        return path.dirname(self._full_file_name)
 
     @property
     def extension(self):
