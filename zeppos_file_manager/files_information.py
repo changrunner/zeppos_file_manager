@@ -2,23 +2,34 @@ from glob import glob
 from os import path, listdir
 from zeppos_file_manager.file_marker import FileMarker
 from zeppos_logging.app_logger import AppLogger
+from os import walk, path
+
 
 class FilesInformation:
     @staticmethod
     def get_files_by_extension(base_dir, extension="*", start_file_filter=None, end_file_filter=None,
-                               include_processed=False):
+                               include_subdir=False, include_processed=False):
         AppLogger.logger.debug(f'get_files_by_extension: [{base_dir}], [{extension}]')
-        files = glob(
-            path.join(
-                base_dir,
-                f'{str(start_file_filter or "")}*{str(end_file_filter or "")}.{extension}'
+        if not include_subdir:
+            file_list = glob(
+                path.join(
+                    base_dir,
+                    f'{str(start_file_filter or "")}*{str(end_file_filter or "")}.{extension}'
+                )
             )
-        )
+        else:
+            file_list = []
+            for root, dirs, files in walk(base_dir):
+                for file in files:
+                    # append the file name to the list
+                    file_list.append(path.join(root, file))
+
         if include_processed:
             for file_marker in FileMarker.file_maker_list():
                 files += FilesInformation.get_files_by_extension(base_dir, f"{extension}.{file_marker}",
-                                                                 start_file_filter, end_file_filter)
-        return sorted(files)
+                                                                 start_file_filter, end_file_filter, include_subdir)
+
+        return sorted(file_list)
 
     @staticmethod
     def get_files_excluding_extension(base_dir, extension):

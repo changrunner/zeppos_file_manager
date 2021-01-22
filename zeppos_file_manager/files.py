@@ -8,13 +8,14 @@ from zeppos_logging.app_logger import AppLogger
 
 class Files:
     def __init__(self, base_dir, extension="*", start_file_filter=None, end_file_filter=None,
-                 include_processed=False, file_object=File):
+                 include_processed=False, include_subdir=False, file_object=File):
         self._files = FilesInformation.get_files_by_extension(
             base_dir=base_dir,
             extension=extension,
             start_file_filter=start_file_filter,
             end_file_filter=end_file_filter,
-            include_processed=include_processed
+            include_processed=include_processed,
+            include_subdir=include_subdir
         )
         self._base_dir = base_dir
         self._file_object = file_object

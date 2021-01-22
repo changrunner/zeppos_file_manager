@@ -38,3 +38,11 @@ class UtilForTesting:
                 elif logging_matching_criteria[item_index] == 'startswith':
                     self.assertEqual(True, lc.actual()[tuple_index][item_index].startswith(
                         logging_tuple_list[tuple_index][item_index]))
+
+    @staticmethod
+    def file_clean_up():
+        shutil.rmtree(UtilForTesting.get_temp_dir(), ignore_errors=True)
+
+    @staticmethod
+    def get_temp_dir():
+        return os.path.join(os.path.dirname(__file__), "temp")
