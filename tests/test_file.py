@@ -5,6 +5,12 @@ import os
 
 
 class TestTheProjectMethods(unittest.TestCase):
+    def setUp(self):
+        UtilForTesting.file_clean_up()
+
+    def tearDown(self):
+        UtilForTesting.file_clean_up()
+
     def test_constructor_method(self):
         self.assertEqual(str(type(File("c:\\temp\\test.csv"))),
                          "<class 'zeppos_file_manager.file.File'>")
@@ -66,6 +72,10 @@ class TestTheProjectMethods(unittest.TestCase):
         self.assertEqual(r"c:\temp", os.path.dirname(file.full_file_name))
         self.assertEqual("test.csv", os.path.basename(file.full_file_name).split("__")[1])
         self.assertGreater(len(os.path.basename(file.full_file_name).split("__")[0]), 0)
+
+    def test_directory_name_method(self):
+        temp_dir, file_dir, full_file_name_list = UtilForTesting.file_setup('test_dir_name', '')
+        self.assertEqual(os.path.dirname(full_file_name_list[0]), File(full_file_name_list[0]).directory_name)
 
 
 if __name__ == '__main__':
